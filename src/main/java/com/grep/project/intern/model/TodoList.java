@@ -25,13 +25,13 @@ public class TodoList {
     private int sequence;
 
     @NonNull
-    private Date dueDate;
+    private String dueDate;
 
     @NonNull
     private boolean done;
 
     @Builder
-    public TodoList(String title, String content, int sequence, Date dueDate) {
+    public TodoList(String title, String content, int sequence, String dueDate) {
         this.title = title;
         this.content = content;
         this.sequence = sequence;
