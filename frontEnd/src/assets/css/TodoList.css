@@ -1,0 +1,21 @@
+.react-datepicker-wrapper {
+  display: block !important;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+}
+
+.react-datepicker-wrapper input {
+  width: 50%;
+}
+
+.table td,
+.table th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.btn-group .done .doing {
+  text-decoration-line: none !important;
+}
