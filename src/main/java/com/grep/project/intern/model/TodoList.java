@@ -1,8 +1,11 @@
 package com.grep.project.intern.model;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Data
@@ -24,14 +27,14 @@ public class TodoList {
     @NonNull
     private int sequence;
 
-    @NonNull
-    private String dueDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private ZonedDateTime dueDate;
 
     @NonNull
     private boolean done;
 
     @Builder
-    public TodoList(String title, String content, int sequence, String dueDate) {
+    public TodoList(String title, String content, int sequence, ZonedDateTime dueDate) {
         this.title = title;
         this.content = content;
         this.sequence = sequence;
@@ -41,6 +44,6 @@ public class TodoList {
 
     @Override
     public String toString() {
-        return "ID = " + id + ", title = " + title;
+        return "ID = " + id + ", title = " + title + ", dueDate = " + dueDate;
     }
 }
