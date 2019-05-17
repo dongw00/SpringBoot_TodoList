@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import AppNavbar from './AppNavbar';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
+
+import ko from 'date-fns/locale/ko';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
 import PropTypes from 'prop-types';
 
 const URL = '/api';
+registerLocale('ko', ko);
 
 class TodoEdit extends Component {
   defaultTodo = {
@@ -150,6 +153,7 @@ class TodoEdit extends Component {
                 timeFormat="HH:mm"
                 dateFormat="yyyy년 M월 d일 h:mm aa"
                 timeCaption="시간"
+                local="ko"
               />
             </FormGroup>
             <FormGroup>

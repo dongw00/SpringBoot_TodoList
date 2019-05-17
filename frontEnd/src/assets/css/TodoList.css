@@ -19,3 +19,10 @@
 .btn-group .done .doing {
   text-decoration-line: none !important;
 }
+
+.asd {
+  position: fixed;
+  right: 10px;
+  bottom: 0;
+  z-index: 1030;
+}

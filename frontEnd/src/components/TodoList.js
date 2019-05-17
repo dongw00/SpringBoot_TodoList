@@ -3,6 +3,8 @@ import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import { Link } from 'react-router-dom';
 
+import AlertMessage from './AlertMessage';
+
 import '../assets/css/TodoList.css';
 
 const URL = `api/todo`;
@@ -10,7 +12,7 @@ const URL = `api/todo`;
 class TodoList extends Component {
   constructor(props) {
     super(props);
-    this.state = { todos: [], isLoading: true };
+    this.state = { todos: [], isLoading: true, expireTodo: [] };
     this.remove = this.remove.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.getFormatDate = this.getFormatDate.bind(this);
@@ -21,13 +23,25 @@ class TodoList extends Component {
 
     fetch(URL)
       .then(response => response.json())
-      .then(data => this.setState({ todos: data, isLoading: false }))
-      .then(() => {
-        console.log(this.state.todos);
+      .then(data => {
+        this.setState({ todos: data, isLoading: false });
+
+        // 마감기한 지난 todo 등록
+        this.state.todos.forEach(todo => {
+          if (new Date(todo.dueDate) < new Date() && todo.dueDate !== null) {
+            this.setState({
+              expireTodo: this.state.expireTodo.concat({ ...todo }),
+            });
+          }
+        });
       })
-      .catch(err => console.warn(`error! : ${err}`));
+      .catch(err => {
+        console.error(`error! : ${err}`);
+        alert('서버에서 불러오는데 실패했습니다.');
+      });
   }
 
+  /* Todo 삭제*/
   async remove(id) {
     await fetch(`${URL}/${id}`, {
       method: 'DELETE',
@@ -39,12 +53,16 @@ class TodoList extends Component {
       .then(() => {
         let updatedTodo = [...this.state.todos].filter(i => i.id !== id);
         this.setState({ todos: updatedTodo });
-        console.log(`delete success!`);
       })
-      .catch(err => console.warn(`error! : ${err}`));
+      .catch(err => {
+        console.error(`error! : ${err}`);
+        alert('삭제하는데 실패하였습니다.');
+      });
   }
 
+  /* 마감기한 날짜 처리 */
   getFormatDate(dateTime) {
+    if (dateTime === null) return false;
     const date = new Date(dateTime);
     const year = date.getFullYear();
 
@@ -63,12 +81,10 @@ class TodoList extends Component {
     return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`;
   }
 
+  /* Done 처리 */
   async handleClick(event, id) {
     event.preventDefault();
     let item = this.state.todos.filter(todo => todo.id === id)[0];
-
-    console.log(`id = ${id}`);
-    console.dir(item);
 
     if (event.target.tagName === 'SPAN') {
       const eventTarget = event.target.parentElement;
@@ -141,23 +157,37 @@ class TodoList extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(item),
-    }).then(() => {
-      console.log('PUT success!');
+    }).catch(err => {
+      console.error(`수정하는데 실패하였습니다. ${err}`);
+      alert('수정하는데 실패하였습니다.');
     });
   }
 
   render() {
-    const { todos, isLoading } = this.state;
+    const { todos, isLoading, expireTodo } = this.state;
 
+    /* loading page */
     if (isLoading) {
       return <p>Loading...</p>;
     }
 
+    const msg = expireTodo.map(exTodo => {
+      return (
+        <AlertMessage
+          key={exTodo.id}
+          message={`"${exTodo.title}"가 만료되었습니다.`}
+        />
+      );
+    });
+
+    /* 우선순위 정렬 */
     todos.sort((o1, o2) => {
       if (o1.sequence > o2.sequence) return 1;
       else if (o1.sequence < o2.sequence) return -1;
       else return 0;
     });
+
+    /* Todo List 내용 처리 */
     const todoList = todos.map(todo => {
       return (
         <tr
@@ -206,6 +236,7 @@ class TodoList extends Component {
       <div>
         <AppNavbar />
         <Container fluid>
+          {/* Add button*/}
           <div className="float-right">
             <Button color="success" tag={Link} to="/todo/new">
               Add todo{' '}
@@ -220,6 +251,7 @@ class TodoList extends Component {
             </span>{' '}
             My Todo List
           </h2>
+          {/* Table column 이름 */}
           <Table className="mt-4">
             <thead>
               <tr>
@@ -233,6 +265,8 @@ class TodoList extends Component {
             </thead>
             <tbody>{todoList}</tbody>
           </Table>
+          {/* Alert Message */}
+          <div className="asd">{msg}</div>
         </Container>
       </div>
     );
