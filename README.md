@@ -1,6 +1,6 @@
 # 🧘‍♀️ Spring Boot Todo 🧘‍♂️
 
-
+![Preview Image](Preview.png)
 
 ## :mega: Intro
 
@@ -27,15 +27,18 @@ mvn clean install
 
 ## Test product
 
-⭕️AWS Elastic Beanstalk
-↓↓↓↓↓↓↓↓↓↓
-http://springboottodo-env.8bx6fgrwpb.ap-northeast-2.elasticbeanstalk.com/
+#### AWS Elastic Beanstalk
+
+↓↓↓↓↓↓↓↓↓↓ <br>
+<http://springboottodo-env.8bx6fgrwpb.ap-northeast-2.elasticbeanstalk.com/>
 
 <br />
 
 ## REST API (Swagger)
 
-http://springboottodo-env.8bx6fgrwpb.ap-northeast-2.elasticbeanstalk.com/swagger-ui.html
+![swagger Image](swagger.png)
+
+<http://springboottodo-env.8bx6fgrwpb.ap-northeast-2.elasticbeanstalk.com/swagger-ui.html>
 
 ## Project File structure
 
@@ -51,8 +54,8 @@ http://springboottodo-env.8bx6fgrwpb.ap-northeast-2.elasticbeanstalk.com/swagger
 
 - `/src/` : BackEnd directory (Spring boot)
   - `config/Swagger2Config.java` : Swagger2 configuration
-  
+
   - `model/TodoList.java` : Define todolist entitiy
   - `model/TodoListRepository.java` : Repository
-  
+
   - `restController/TodoController.java` : Rest API controller
