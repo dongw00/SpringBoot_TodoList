@@ -1,4 +1,4 @@
-package com.grep.project.intern.controller;
+package com.grep.project.intern.restController;
 
 import com.grep.project.intern.model.TodoList;
 import com.grep.project.intern.model.TodoListRepository;
