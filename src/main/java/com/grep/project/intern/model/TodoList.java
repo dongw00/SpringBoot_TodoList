@@ -4,14 +4,13 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@RequiredArgsConstructor
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "todoList")
 public class TodoList {
     @Id
@@ -33,17 +32,9 @@ public class TodoList {
     @NonNull
     private boolean done;
 
-    @Builder
-    public TodoList(String title, String content, int sequence, ZonedDateTime dueDate) {
-        this.title = title;
-        this.content = content;
-        this.sequence = sequence;
-        this.done = false;
-        this.dueDate = dueDate;
-    }
 
     @Override
     public String toString() {
-        return "ID = " + id + ", title = " + title + ", dueDate = " + dueDate;
+        return "title = " + title + ", dueDate = " + dueDate + ", sequence  = " + sequence + ", done = " + done;
     }
 }

@@ -16,7 +16,7 @@ Todo list project! <br />
 
 ## Project execution
 
-```
+``` bash
 mvn clean install
 ./mvnw spring-boot:run
 ```
