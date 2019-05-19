@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -42,7 +41,7 @@ public class TodoController {
 
     @ApiOperation(value = "todo POST")
     @PostMapping
-    ResponseEntity<TodoList> createGroup(@Valid @RequestBody TodoList todoList) throws URISyntaxException {
+    ResponseEntity<TodoList> createGroup(@Valid @RequestBody TodoList todoList) {
         log.info("todo를 생성했습니다 : {}", todoList);
         TodoList result = todoListRepository.save(todoList);
         return ResponseEntity.ok().body(result);
